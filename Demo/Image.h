@@ -22,7 +22,7 @@ public:
 	virtual ~Image();
 	
 	void setImage(const string& filePath);
-	unsigned char* getData();
+	unsigned char* getData() { return m_data; };
 	unsigned int getWidth() const { return m_width; }
 	unsigned int getHeight() const { return m_heigth; }
 	unsigned int getChannel() const { return m_channel; }
