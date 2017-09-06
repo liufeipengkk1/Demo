@@ -1,0 +1,9 @@
+Sdk/*
+Demo/Debug/*
+Demo/x64/*
+Demo/*.opensdf
+Demo/*.sdf
+Demo/*.sln
+Demo/Demo.v12.suo
+Demo/Demo.vcxproj
+Demo/Demo.vcxproj.filters
