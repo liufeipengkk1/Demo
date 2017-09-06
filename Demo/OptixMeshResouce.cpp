@@ -1,4 +1,5 @@
 #include "OptixMeshResource.h"
+#include "Image.h"
 
 const static int PER_POSITION_FACTOR = 3;
 const static int PER_NORMAL_FACTOR = 3;
@@ -28,6 +29,58 @@ Buffer createBuffer(Context context, unsigned int type, RTformat format, int wid
 	buffer->unmap();
 
 	return buffer;
+}
+
+TextureSampler createRGBATextureFromImage(Context context,
+	unsigned int type, Image* image) {
+	if (image == nullptr)
+		return nullptr;
+	int width = image->getWidth();
+	int height = image->getHeight();
+	int channel = image->getChannel();
+	ImageType type = image->getType();
+	Buffer imageBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE4, width, height);
+	unsigned char * data = (unsigned char *)imageBuffer->map();
+	unsigned char* imageData = image->getData();
+	if (type == RGBA) {
+		memcpy(data, imageData, width * height* channel);
+	}
+	else if (type == R) {
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++)
+			{
+				data[i*width * 4 + j * 4]     =  imageData[i*width + j];
+				data[i*width * 4 + j * 4 + 1] = imageData[i*width + j];
+				data[i*width * 4 + j * 4 + 2] = imageData[i*width + j];
+				data[i*width * 4 + j * 4 + 3] = imageData[i*width + j];
+			}
+		}
+	}
+	else if (type == RGB) {
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++)
+			{
+				data[i*width * 4 + j * 4]     = imageData[i*width * channel + j * channel];
+				data[i*width * 4 + j * 4 + 1] = imageData[i*width * channel + j * channel + 1];
+				data[i*width * 4 + j * 4 + 2] = imageData[i*width * channel + j * channel + 2];
+				data[i*width * 4 + j * 4 + 3] = 255;
+			}
+		}
+	}
+
+	imageBuffer->unmap();
+	TextureSampler ts = context->createTextureSampler();
+	ts->setWrapMode(0, RT_WRAP_REPEAT);
+	ts->setWrapMode(1, RT_WRAP_REPEAT);
+	ts->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+	ts->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+	ts->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+	ts->setMaxAnisotropy(1);
+	ts->setMipLevelCount(1);
+	ts->setArraySize(1);
+	ts->setBuffer(imageBuffer);
+
+	return  ts;
 }
 
 
@@ -83,8 +136,17 @@ void OptixMeshResource::createMeshBuffer(MeshResource* mesh, Context context) {
 		mesh->getIndices().size() / PER_FACE_FACTOR, &(mesh->getIndices()[0]), sizeof(int)*PER_FACE_FACTOR);
 }
 
+//if we use optixCore.
+//because in our system shader, we use rgba texture. so ,we need the texture channel equal to 4.
 void OptixMeshResource::createTextureSampler(MeshResource* mesh, Context context) {
-
+	Buffer diffuseMap  = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer normalMap   = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer glossyMap   = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer matallicMap = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer specularMap = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer emissionMap = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer reflectionMap  = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
+	Buffer opacityMap  = createRGBATextureFromImage(context, RT_BUFFER_INPUT, mesh->getDiffuseMap());
 }
 
 Buffer OptixMeshResource::getPositon() {

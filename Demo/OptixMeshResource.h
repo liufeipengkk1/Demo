@@ -57,5 +57,6 @@ Buffer createBuffer(Context context, unsigned int type, RTformat format, int wid
 	 void* data, unsigned int elementSize);
 Buffer createBuffer(Context context, unsigned int type, RTformat format, int width,
 	int height, void * data, unsigned int elementSize);
+TextureSampler createRGBATextureFromImage(Context context, unsigned int type, Image* image, RTwrapmode wrap, RTfiltermode filterMode);
 
 #endif
