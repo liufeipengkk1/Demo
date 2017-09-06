@@ -11,18 +11,18 @@ class OptixNode
 {
 public:
 	OptixNode();
-	~OptixNode();
+	virtual ~OptixNode();
 
-	//optix::Matrix4x4 getTransform() const;
-	//void setTransform(const optix::Matrix4x4& transform);
-	//void setRotation(const optix::Matrix4x4& rotation);
-	//void setPostition(const float3& position);
+	void translate(const float3& traslate);
+	void rotation(const float& angle, const float3& axis);
+	void scale(const float3& s);
 
-private:
+	optix::Matrix4x4 getTransform();
+
+	void setName(const string& name);
+	string getName() const{ return m_name; }
+protected:
 	optix::Matrix4x4 m_transform;
-	optix::Matrix4x4 m_rotation;
-	optix::float3    m_position;
-
 	string           m_name;
 };
 
