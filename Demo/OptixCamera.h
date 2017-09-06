@@ -1,4 +1,7 @@
 
+#ifndef OPTIXCORE_CAMERA_H
+#define OPTIXCORE_CAMERA_H
+
 #include <iostream>
 #include "OptixNode.h"
 using namespace std;
@@ -33,3 +36,4 @@ private:
 	float3 m_w; //z
 };
 
+#endif

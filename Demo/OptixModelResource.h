@@ -1,4 +1,7 @@
-#pragma once
+
+#ifndef OPTIXCORE_OPTIXMODELRESOURCE_H
+#define OPTIXCORE_OPTIXMODELRESOURCE_H
+
 class OptixModelResource
 {
 public:
@@ -6,3 +9,4 @@ public:
 	~OptixModelResource();
 };
 
+#endif

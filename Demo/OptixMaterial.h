@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OPTIXCORE_OPTIXMATERIAL_H
+#define OPTIXCORE_OPTIXMATERIAL_H
+
 class OptixMaterial
 {
 public:
@@ -6,3 +8,4 @@ public:
 	~OptixMaterial();
 };
 
+#endif
