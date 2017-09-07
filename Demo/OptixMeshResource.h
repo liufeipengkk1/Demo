@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optix_world.h>
 
+#include "OptixTexture2D.h"
 #include "MeshResource.h"
 
 using namespace std;
@@ -28,6 +29,15 @@ public:
 	Buffer getBitangent();
 	Buffer getIndices();
 
+	OptixTexture2D* getDiffuseMap() const { return m_diffuseMap; }
+	OptixTexture2D* getNormalMap() const { return m_normalMap; }
+	OptixTexture2D* getGlossyMap() const { return m_glossyMap; }
+	OptixTexture2D* getMatallicMap() const { return m_matallicMap; }
+	OptixTexture2D* getSpecularMap() const { return m_specularMap; }
+	OptixTexture2D* getEmissinMap() const { return m_emissionMap; }
+	OptixTexture2D* getReflectionMap() const { return m_reflectionMap; }
+	OptixTexture2D* getOpacityMap() const { return m_opacityMap; }
+
 private:
 	void createMeshBuffer(MeshResource* mesh, Context context);
 	void createTextureSampler(MeshResource* mesh, Context context);
@@ -41,14 +51,14 @@ private:
 	Buffer m_indices;
 
 	//RGBA
-	TextureSampler m_diffuseMap;
-	TextureSampler m_normalMap;
-	TextureSampler m_glossyMap;
-	TextureSampler m_matallicMap;
-	TextureSampler m_specularMap;
-	TextureSampler m_emissionMap;
-	TextureSampler m_reflectionMap;
-	TextureSampler m_opacityMap;
+	OptixTexture2D* m_diffuseMap;
+	OptixTexture2D* m_normalMap;
+	OptixTexture2D* m_glossyMap;
+	OptixTexture2D* m_matallicMap;
+	OptixTexture2D* m_specularMap;
+	OptixTexture2D* m_emissionMap;
+	OptixTexture2D* m_reflectionMap;
+	OptixTexture2D* m_opacityMap;
 
 	string m_name;
 };
@@ -57,6 +67,4 @@ Buffer createBuffer(Context context, unsigned int type, RTformat format, int wid
 	 void* data, unsigned int elementSize);
 Buffer createBuffer(Context context, unsigned int type, RTformat format, int width,
 	int height, void * data, unsigned int elementSize);
-TextureSampler createRGBATextureFromImage(Context context, unsigned int type, Image* image, RTwrapmode wrap, RTfiltermode filterMode);
-
 #endif
