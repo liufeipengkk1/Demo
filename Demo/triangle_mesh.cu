@@ -11,7 +11,7 @@ rtBuffer<float3> vertex_buffer;	//vertex
 rtBuffer<float3> normal_buffer; //normal
 rtBuffer<float2> texcoord_buffer; //uv
 rtBuffer<float3> tangent_buffer;  //tangent
-rtBuffer<float3> bigTangent_buffer;// bigTangent
+rtBuffer<float3> bigTangent_buffer;  // bigTangent
 rtBuffer<int3> tri_indice;
 
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
@@ -69,11 +69,6 @@ RT_PROGRAM void intersect(int primIdx)
 
 RT_PROGRAM void mesh_bounds(int primIdx, float result[6])
 {
-	//const int3 v_idx = index_buffer[primIdx];
-	/*const float3 v0 = vertex_buffer[v_idx.x];
-	const float3 v1 = vertex_buffer[v_idx.y];
-	const float3 v2 = vertex_buffer[v_idx.z];*/
-
 	const float3 v0 = vertex_buffer[tri_indice[primIdx].x];
 	const float3 v1 = vertex_buffer[tri_indice[primIdx].y];
 	const float3 v2 = vertex_buffer[tri_indice[primIdx].z];
