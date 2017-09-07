@@ -22,6 +22,8 @@ public:
 	void setName(const string& name) { m_name = name; }
 	string getName() const { return m_name; }
 
+	unsigned int getFaceNums() { return m_faceNums; }
+
 	Buffer getPositon();
 	Buffer getNormal();
 	Buffer getUV();
@@ -59,6 +61,8 @@ private:
 	OptixTexture2D* m_emissionMap;
 	OptixTexture2D* m_reflectionMap;
 	OptixTexture2D* m_opacityMap;
+
+	unsigned int m_faceNums;
 
 	string m_name;
 };

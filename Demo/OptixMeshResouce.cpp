@@ -49,6 +49,7 @@ m_emissionMap(nullptr),
 m_reflectionMap(nullptr),
 m_opacityMap(nullptr)
 {
+	m_faceNums = 0;
 }
 
 
@@ -115,6 +116,8 @@ void OptixMeshResource::createMeshBuffer(MeshResource* mesh, Context context) {
 
 	m_indices = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_INT3,
 		mesh->getIndices().size() / PER_FACE_FACTOR, &(mesh->getIndices()[0]), sizeof(int)*PER_FACE_FACTOR);
+
+	m_faceNums = mesh->getIndices().size() / PER_FACE_FACTOR;
 }
 
 //if we use optixCore.
