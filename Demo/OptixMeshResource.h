@@ -7,11 +7,12 @@
 
 #include "OptixTexture2D.h"
 #include "MeshResource.h"
+#include "Reference.h"
 
 using namespace std;
 using namespace optix;
 
-class OptixMeshResource
+class OptixMeshResource :public Referenced
 {
 public:
 	OptixMeshResource();

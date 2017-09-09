@@ -9,12 +9,14 @@
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 
+#include "Reference.h"
+
 using namespace std;
 
 class Image;
 class ImageManager;
 
-class MeshResource
+class MeshResource :public Referenced
 {
 public:
 	MeshResource();

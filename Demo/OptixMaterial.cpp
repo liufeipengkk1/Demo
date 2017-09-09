@@ -23,7 +23,7 @@ void OptixMaterial::linkShader(Context context) {
 		cout << "OptixMaterial: No Shader Program" << endl;
 	}
 	if (itr2 != m_shaders.end()) {
-		m_material->setAnyHitProgram(Shadow_ray, itr2->second.getHandle());
+		m_material->setAnyHitProgram(Shadow_Ray, itr2->second.getHandle());
 	}
 	else {
 		cout << "OptixMaterial: No Shadow Program" << endl;

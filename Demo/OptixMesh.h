@@ -10,7 +10,7 @@ using namespace std;
 using namespace optix;
 
 
-class OptixMesh
+class OptixMesh :public Referenced
 {
 public:
 	OptixMesh();

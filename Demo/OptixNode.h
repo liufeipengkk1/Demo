@@ -3,11 +3,12 @@
 #include <iostream>
 #include <optix_world.h>
 #include <optixpp.h>
+#include "Reference.h"
 
 using namespace optix;
 using namespace std;
 
-class OptixNode
+class OptixNode :public Referenced
 {
 public:
 	OptixNode();

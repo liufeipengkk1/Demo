@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include "Reference.h"
 using namespace std;
 
 typedef enum ImageType
@@ -14,7 +15,7 @@ typedef enum ImageType
 	NONE
 }ImageType;
 
-class Image
+class Image:public Referenced
 {
 public:
 	Image();

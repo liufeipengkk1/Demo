@@ -4,12 +4,14 @@
 
 #include <optix_world.h>
 #include <iostream>
+#include "Reference.h"
+
 using namespace std;
 using namespace optix;
 
 class Image;
 
-class OptixTexture2D{
+class OptixTexture2D :public Referenced{
 public:
 	OptixTexture2D(Context& context);
 	OptixTexture2D(Context context, Image* image);

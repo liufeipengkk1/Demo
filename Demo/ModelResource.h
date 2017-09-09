@@ -7,12 +7,15 @@
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+
+#include "Reference.h"
+
 using namespace std;
 
 class MeshResource;
 class ImageManager;
 
-class ModelResource
+class ModelResource :public Referenced
 {
 public:
 	ModelResource();

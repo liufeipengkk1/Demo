@@ -4,13 +4,14 @@
 
 #include <iostream>
 #include <optix_world.h>
+#include "Reference.h"
 using namespace optix;
 using namespace std;
 
 class OptixMeshResource;
 class ModelResource;
 
-class OptixModelResource
+class OptixModelResource :public Referenced
 {
 public:
 	OptixModelResource();

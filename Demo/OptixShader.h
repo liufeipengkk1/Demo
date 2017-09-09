@@ -4,12 +4,14 @@
 #include <optix_world.h>
 #include <iostream>
 
+#include "Reference.h"
+
 using namespace std;
 using namespace optix;
 
 typedef string PTXFunction;
 
-class OptixShader
+class OptixShader :public Referenced
 {
 public:
 	OptixShader();

@@ -8,7 +8,7 @@ using namespace std;
 
 #include "Image.h"
 
-class ImageManager
+class ImageManager :public Referenced
 {
 public:
 	static ImageManager* getInstance();

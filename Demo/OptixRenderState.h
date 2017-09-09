@@ -1,5 +1,6 @@
-#pragma once
-class OptixRenderState
+
+#include "Reference.h"
+class OptixRenderState :public Referenced
 {
 public:
 	OptixRenderState();

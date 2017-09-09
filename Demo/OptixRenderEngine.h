@@ -1,5 +1,5 @@
-#pragma once
-class OptixRenderEngine
+#include "Reference.h"
+class OptixRenderEngine :public Referenced
 {
 public:
 	OptixRenderEngine();

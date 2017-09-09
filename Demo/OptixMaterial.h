@@ -6,11 +6,12 @@
 #include <map>
 
 #include "optixcore_base_define.h"
+#include "Reference.h"
 using namespace std;
 
 class OptixShader;
 
-class OptixMaterial
+class OptixMaterial :public Referenced
 {
 public:
 	OptixMaterial();
