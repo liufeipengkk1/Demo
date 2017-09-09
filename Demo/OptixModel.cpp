@@ -25,6 +25,8 @@ bool OptixModel::load(OptixContext* context, OptixModelResource* modelResouce,
 	if (modelResouce == nullptr)
 		return false;
 
+	m_modelResouce = SharePtr<OptixModelResource>(modelResouce);
+
 	m_geometryGroup = context->getContext()->createGeometryGroup();
 	m_geometryGroup->setAcceleration(context->getContext()->createAcceleration(m_acce));
 	m_material = material;

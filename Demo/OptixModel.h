@@ -13,6 +13,7 @@ using namespace optix;
 #include "OptixGeometryShader.h"
 #include "OptixMesh.h"
 #include "OptixContext.h"
+#include "SharePtr.h"
 
 class OptixModel:public OptixNode
 {
@@ -30,6 +31,7 @@ public:
 	string getAcce() { return m_acce; }
 
 private:
+	SharePtr<OptixModelResource> m_modelResouce;
 	OptixMaterial m_material;
 	GeometryGroup m_geometryGroup;
 	vector<OptixMesh*> m_mesh;
