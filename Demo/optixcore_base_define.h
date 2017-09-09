@@ -16,6 +16,14 @@
 #define FRAGMENT_SHADER_PROGRAM "shader_program"
 #define FRAGMENT_SHADOW_PROGRAM "shadow_program"
 
+
+#define VERTEX_BUFFER "vertex_buffer"
+#define NORMAL_BUFFER "normal_buffer"
+#define UV_BUFFER "texcoord_buffer"
+#define TANGENT_BUFFER "tangent_buffer"
+#define BITANGENT_BUFFER "bigTangent_buffer"
+#define INDICES_BUFFER "tri_indice"
+
 typedef enum OptixRayType{
 	Shading_Ray = 0,
 	Shadow_Ray = 1,
