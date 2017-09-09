@@ -16,7 +16,7 @@ class OptixContext :public Referenced
 public:
 	OptixContext();
 	void setViewPort(int w, int h);
-	void setExceptionShader(OptixShader* shader);
+	void setExceptionShader(OptixShader& shader);
 	void setExceptionEnable(bool enable = true){}
 	void setPrintEnable(bool enable = false);
 	void setCurEntryPoint(int idx);

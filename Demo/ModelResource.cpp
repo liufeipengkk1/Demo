@@ -32,7 +32,7 @@ bool  ModelResource::load(const string& path, ImageManager* imageManager) {
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		cout << "ModelResource:Error load:: " << m_impoter.GetErrorString() << endl;
-		return false;
+		exit(0);
 	}
 	
 	m_directory = path.substr(0, path.find_last_of('/'));

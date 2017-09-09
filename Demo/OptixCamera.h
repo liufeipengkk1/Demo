@@ -22,19 +22,19 @@ public:
 	void setCameraParameter(const float& fov, const float& aspect,
 		const float3& position, const float3& lookAt, const float3& wUp);
 
-	void setRayGenShader(OptixShader* shader) {
-		m_cameraShader = SharePtr<OptixShader>(shader);
+	void setRayGenShader(OptixShader& shader) {
+		m_cameraShader = shader;
 	}
 
-	void setBackGroundShader(OptixShader* shader) {
-		m_bgShader = SharePtr<OptixShader>(shader);
+	void setBackGroundShader(OptixShader& shader) {
+		m_bgShader = shader;
 	}
 
-	void setView(OptixView* view);
-	OptixView* getView();
+	void setView(OptixView* view){ m_optixView = SharePtr<OptixView>(view); }
+	OptixView* getView() { return m_optixView.get(); }
 
-	OptixShader* getORayGenShader() const { return m_cameraShader.get(); }
-	OptixShader* getBackGroundShader() const { return m_bgShader.get(); }
+	OptixShader getORayGenShader() const { return m_cameraShader; }
+	OptixShader getBackGroundShader() const { return m_bgShader; }
 
 	void beforRender(OptixRenderState& renderState);
 	void doRender(OptixRenderState& renderState);
@@ -59,9 +59,9 @@ private:
 	float3 m_v; //y
 	float3 m_w; //z
 
-	SharePtr<OptixShader> m_cameraShader;
+	OptixShader m_cameraShader;
 	SharePtr<OptixView> m_optixView;
-	SharePtr<OptixShader> m_bgShader;
+	OptixShader m_bgShader;
 	OptixRenderEngine m_engine;
 };
 

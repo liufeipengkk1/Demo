@@ -9,7 +9,6 @@
 #include <assimp\postprocess.h>
 
 #include "Reference.h"
-
 using namespace std;
 
 class MeshResource;

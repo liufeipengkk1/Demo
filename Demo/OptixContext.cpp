@@ -22,9 +22,8 @@ OptixContext::~OptixContext()
 {
 }
 
-void OptixContext::setExceptionShader(OptixShader* shader) {
-	m_exceptionShader = SharePtr<OptixShader>(shader);
-	m_context->setExceptionProgram(Shading_Ray, m_exceptionShader->getHandle());
+void OptixContext::setExceptionShader(OptixShader& shader) {
+	m_context->setExceptionProgram(Shading_Ray, shader.getHandle());
 }
 
 void OptixContext::setViewPort(int w, int h) {

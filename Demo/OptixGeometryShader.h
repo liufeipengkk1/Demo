@@ -4,6 +4,7 @@
 
 #include "OptixShader.h"
 #include "optixcore_base_define.h"
+#include "SharePtr.h"
 
 class OptixGeometryShader :public Referenced
 {
