@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optix_world.h>
 #include "Reference.h"
+#include "SharePtr.h"
 using namespace optix;
 using namespace std;
 
@@ -21,6 +22,7 @@ public:
 	vector<OptixMeshResource*>& getMeshResouces();
 	OptixMeshResource* getMesh(const string& name);
 private:
+	SharePtr<ModelResource> m_modelResource;
 	Context context;
 	vector<OptixMeshResource*>  m_meshResources;
 	string m_name;

@@ -34,6 +34,9 @@ OptixMeshResource* OptixModelResource::getMesh(const string& name) {
 bool OptixModelResource::load(ModelResource* modelResource, Context context) {
 	if (modelResource == nullptr)
 		return false;
+
+	m_modelResource = SharePtr<ModelResource>(modelResource);
+
 	for (auto& meshResouce : modelResource->getMeshResources()) {
 		OptixMeshResource* optixMesh = new OptixMeshResource();
 		optixMesh->setMeshCache(meshResouce, context);
