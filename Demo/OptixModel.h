@@ -23,9 +23,10 @@ public:
 		OptixMaterial& m_material, OptixGeometryShader& gshader);
 
 	string getName() { return m_name; }
-	GeometryGroup getGeometryInstance() { return m_geometryGroup; }
+	GeometryGroup getGeometryGroup() { return m_geometryGroup; }
 
-	string getTransformParser();
+	void setAcce(const string& acce) { m_acce = acce; }
+	string getAcce() { return m_acce; }
 
 private:
 	OptixMaterial m_material;
@@ -33,6 +34,7 @@ private:
 	vector<OptixMesh*> m_mesh;
 	vector<GeometryInstance> m_meshGeometryInstance;
 	string m_name;
+	string m_acce;
 };
 
 #endif

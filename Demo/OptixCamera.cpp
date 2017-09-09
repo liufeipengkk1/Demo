@@ -56,3 +56,17 @@ float3 OptixCamera::getW() {
 	w = m_transform * w;
 	return make_float3(w.x, w.y, w.z);
 }
+
+OptixView* OptixCamera::getView() {
+	return m_optixView.get();
+}
+
+void OptixCamera::beforRender(OptixRenderState& renderState) {
+	renderState.backGound = m_bgShader->getHandle();
+	renderState.exception = m_cameraShader->getHandle();
+	m_engine.beforeRender(renderState);
+}
+
+void OptixCamera::doRender(OptixRenderState& renderState) {
+	m_engine.doRender(renderState);
+}

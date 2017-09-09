@@ -11,6 +11,8 @@ using namespace std;
 
 class OptixShader;
 
+
+//Material Means fragment Shader
 class OptixMaterial :public Referenced
 {
 public:

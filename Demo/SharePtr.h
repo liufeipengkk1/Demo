@@ -12,7 +12,7 @@ class SharePtr
 public:
     typedef T element_type;
    
-    SharePtr() : _ptr(0) {}
+    SharePtr() : _ptr(nullptr) {}
     
     SharePtr(T* ptr) : _ptr(ptr) { if (_ptr) _ptr->Ref(); }
 

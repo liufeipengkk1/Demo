@@ -16,6 +16,7 @@ void OptixMaterial::linkShader(Context context) {
 	m_material = context->createMaterial();
 	auto& itr1 = m_shaders.find(OPTIX_SHADER);
 	auto& itr2 = m_shaders.find(OPTIX_SHADOW);
+	auto& itr3 = m_shaders.find(OPTIX_TRANSPARENT);
 	if (itr1 != m_shaders.end()) {
 		m_material->setClosestHitProgram(Shading_Ray, itr1->second.getHandle());
 	}
@@ -27,6 +28,13 @@ void OptixMaterial::linkShader(Context context) {
 	}
 	else {
 		cout << "OptixMaterial: No Shadow Program" << endl;
+	}
+
+	if (itr3 != m_shaders.end()) {
+		m_material->setAnyHitProgram(OPTIX_TRANSPARENT, itr2->second.getHandle());
+	}
+	else {
+		cout << "OptixMaterial: No Transparent Program" << endl;
 	}
 }
 

@@ -1,8 +1,9 @@
 #include "OptixModel.h"
+#include "optixcore_base_define.h"
 
-const static char* TRANSFORM_MATRIX = "modelMatrix";
 OptixModel::OptixModel()
 {
+	m_acce = OPTIX_ACCE_METHOD_BVH;
 }
 
 
@@ -25,7 +26,7 @@ bool OptixModel::load(Context context, OptixModelResource* modelResouce,
 		return false;
 
 	m_geometryGroup = context->createGeometryGroup();
-	m_geometryGroup->setAcceleration(context->createAcceleration("Bvh"));
+	m_geometryGroup->setAcceleration(context->createAcceleration(m_acce));
 	m_material = material;
 	for (auto& meshResouce : modelResouce->getMeshResouces()) {
 		OptixMesh* mesh = new OptixMesh();
@@ -34,14 +35,8 @@ bool OptixModel::load(Context context, OptixModelResource* modelResouce,
 		
 		GeometryInstance instance = context->createGeometryInstance(
 			mesh->getGeometry(), &(material.getMaterial()), &(material.getMaterial()) + 1);
-		instance[TRANSFORM_MATRIX]->setMatrix4x4fv(false, m_transform.getData());
 		m_meshGeometryInstance.push_back(instance);
 		m_geometryGroup->addChild(instance);
 	}
-
 	return true;
-}
-
-string OptixModel::getTransformParser() {
-	return string(TRANSFORM_MATRIX);
 }
