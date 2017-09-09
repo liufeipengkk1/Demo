@@ -6,6 +6,7 @@
 #include "OptixMeshResource.h"
 #include "OptixMaterial.h"
 #include "OptixGeometryShader.h"
+#include "OptixContext.h"
 using namespace std;
 using namespace optix;
 
@@ -16,7 +17,7 @@ public:
 	OptixMesh();
 	~OptixMesh();
 
-	bool load(OptixMeshResource* meshResource, Context context,
+	bool load(OptixMeshResource* meshResource, OptixContext* context,
 		OptixGeometryShader& gshader);
 	
 	void setName(const string& name) { m_name = name; }

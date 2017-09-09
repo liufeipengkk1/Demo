@@ -19,24 +19,25 @@ OptixModel::~OptixModel()
 }
 
 
-bool OptixModel::load(Context context, OptixModelResource* modelResouce,
+bool OptixModel::load(OptixContext* context, OptixModelResource* modelResouce,
 	OptixMaterial& material, OptixGeometryShader& gshader) {
 
 	if (modelResouce == nullptr)
 		return false;
 
-	m_geometryGroup = context->createGeometryGroup();
-	m_geometryGroup->setAcceleration(context->createAcceleration(m_acce));
+	m_geometryGroup = context->getContext()->createGeometryGroup();
+	m_geometryGroup->setAcceleration(context->getContext()->createAcceleration(m_acce));
 	m_material = material;
 	for (auto& meshResouce : modelResouce->getMeshResouces()) {
 		OptixMesh* mesh = new OptixMesh();
 		mesh->load(meshResouce, context, gshader);
 		m_mesh.push_back(mesh);
 		
-		GeometryInstance instance = context->createGeometryInstance(
+		GeometryInstance instance = context->getContext()->createGeometryInstance(
 			mesh->getGeometry(), &(material.getMaterial()), &(material.getMaterial()) + 1);
 		m_meshGeometryInstance.push_back(instance);
 		m_geometryGroup->addChild(instance);
 	}
+
 	return true;
 }

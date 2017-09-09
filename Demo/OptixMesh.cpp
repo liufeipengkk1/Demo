@@ -1,12 +1,5 @@
 #include "OptixMesh.h"
-
-
-const static char * VERTEX_BUFFER =  "vertex_buffer";
-const static char * NORMAL_BUFFER =  "normal_buffer";
-const static char * UV_BUFFER     = "texcoord_buffer";
-const static char * TANGENT_BUFFER   = "tangent_buffer";
-const static char * BITANGENT_BUFFER = "bigTangent_buffer";
-const static char * INDICES_BUFFER    =  "tri_indice";
+#include "optixcore_base_define.h"
 
 OptixMesh::OptixMesh()
 {
@@ -17,11 +10,11 @@ OptixMesh::~OptixMesh()
 {
 }
 
-bool OptixMesh::load(OptixMeshResource* meshResource, Context context,
+bool OptixMesh::load(OptixMeshResource* meshResource, OptixContext* context,
 	OptixGeometryShader& gshader) {
 	if (meshResource == nullptr)
 		return false;
-	m_meshGeometry = context->createGeometry();
+	m_meshGeometry = context->getContext()->createGeometry();
 	m_meshGeometry->setPrimitiveCount(meshResource->getFaceNums());
 	m_meshGeometry->setBoundingBoxProgram(gshader.getBoundProgram());
 	m_meshGeometry->setIntersectionProgram(gshader.getIntesectProgram());

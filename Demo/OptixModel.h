@@ -12,6 +12,7 @@ using namespace optix;
 #include "OptixModelResource.h"
 #include "OptixGeometryShader.h"
 #include "OptixMesh.h"
+#include "OptixContext.h"
 
 class OptixModel:public OptixNode
 {
@@ -19,7 +20,7 @@ public:
 	OptixModel();
 	~OptixModel();
 
-	bool load(Context context, OptixModelResource* modelResouce, 
+	bool load(OptixContext* context, OptixModelResource* modelResouce, 
 		OptixMaterial& m_material, OptixGeometryShader& gshader);
 
 	string getName() { return m_name; }
