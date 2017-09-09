@@ -25,11 +25,25 @@ public:
 	void setImage(const string& filePath);
 	unsigned char* getData() { return m_data; };
 	unsigned int getWidth() const { return m_width; }
+	void createEmptyImage(int w, int h, int ch, ImageType ty) { 
+		if (m_data != nullptr)
+		{
+			delete m_data;
+		}
+		m_data = new unsigned char[w * h * ch];
+		memset(m_data, 0, w * h * ch);
+		m_width = w;
+		m_heigth = h;
+		m_channel = ch;
+		m_type = ty;
+	}
+
 	unsigned int getHeight() const { return m_heigth; }
 	unsigned int getChannel() const { return m_channel; }
 	ImageType getType() const { return m_type; }
 	string getName() const { return m_name; }
 	void setName(const string& name) { m_name = name; }
+
 
 private:
 	unsigned char* m_data;
