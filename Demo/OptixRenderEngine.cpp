@@ -25,7 +25,13 @@ void OptixRenderEngine::beforeRender(OptixRenderState& renderState) {
 	context->setMissProgram(Shading_Ray, renderState.backGound);
 	context[renderState.topGroupName]->set(renderState.group);
 
-	context->validate();
+	try{
+		context->validate();
+	}
+	catch (optix::Exception& e) {
+		cout << "Error Code: " << e.getErrorCode() << endl;
+		cout << "Error String" << e.getErrorString() << endl;
+	}
 }
 
 void OptixRenderEngine::doRender(OptixRenderState& renderState) {

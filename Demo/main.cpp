@@ -20,6 +20,8 @@ int main() {
 	// create Context
 	OptixContext* context = new OptixContext();
 	context->setViewPort(screenW, screenH);
+	Buffer hdr_buffer = context->getContext()->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, screenW, screenH);
+	context->getContext()["output_buffer"]->setBuffer(hdr_buffer);
 
 	//create resource
 	ImageManager* imgMg = ImageManager::getInstance();
@@ -66,6 +68,8 @@ int main() {
 	view->setViewSize(screenW, screenH);
 	camera->setView(view);
 	camera->setGroupName("top_Object");
+	camera->setBuffer("output_buffer");
+	camera->update("eye", "u", "v", "w");
 
 	OptixScene scene;
 	scene.addOptixCamera(camera);
