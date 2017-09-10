@@ -1,11 +1,10 @@
 #include "OptixContext.h"
 
-
 OptixContext::OptixContext()
 {
 	m_context = Context::create();
-	m_width = 640;
-	m_height = 480;
+	m_width = 0;
+	m_height = 0;
 	m_enablePrint = true;
 	m_curEntryPoint = 0;
 
@@ -15,15 +14,11 @@ OptixContext::OptixContext()
 
 	m_context->setPrintEnabled(m_enablePrint);
 	m_context->setPrintBufferSize(OPTIX_PRINT_BUFFER_SIZE);
-}
 
+}
 
 OptixContext::~OptixContext()
 {
-}
-
-void OptixContext::setExceptionShader(OptixShader& shader) {
-	m_context->setExceptionProgram(Shading_Ray, shader.getHandle());
 }
 
 void OptixContext::setViewPort(int w, int h) {

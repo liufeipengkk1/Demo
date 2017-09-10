@@ -3,6 +3,8 @@
 
 OptixCamera::OptixCamera() :OptixNode()
 {
+	m_bufferName = "";
+	m_topRootName = "";
 }
 
 
@@ -18,6 +20,17 @@ void OptixCamera::setCameraParameter(const float& fov, const float& aspect,
 	m_lookAt = lookAt;
 	m_up = wUp;
 	calculateUVW();
+}
+
+void OptixCamera::setGroupName(const string& name){
+	m_topRootName = name;
+}
+
+void OptixCamera::setExceptionShader(OptixShader& shader) {
+	if (shader.getHandle().get() != nullptr)
+		m_exceptionShader = shader;
+	else
+		cout << "OptixContext: ExceptionShader is null" << endl;
 }
 
 void OptixCamera::calculateUVW() {
@@ -57,9 +70,35 @@ float3 OptixCamera::getW() {
 	return make_float3(w.x, w.y, w.z);
 }
 
+void OptixCamera::setBuffer(const string& bufferName) {
+	m_bufferName = bufferName;
+}
+
+bool OptixCamera::update(string eyeName, string eyeU, string eyeV, string eyeW) {
+	if (m_cameraShader.getHandle().get() != nullptr) {
+		m_cameraShader[m_bufferName]->setBuffer(m_optixView->getRenderBuffer());
+	}
+	m_eyeName = eyeName;
+	m_uName = eyeU;
+	m_vName = eyeV;
+	m_wName = eyeW;
+
+	return true;
+}
+
 void OptixCamera::beforRender(OptixRenderState& renderState) {
 	renderState.backGound = m_bgShader.getHandle();
-	renderState.exception = m_cameraShader.getHandle();
+	renderState.rayGen = m_cameraShader.getHandle();
+	renderState.exception = m_exceptionShader.getHandle();
+	renderState.topGroupName = m_topRootName;
+	renderState.eye = getPosition();
+	renderState.u = getU();
+	renderState.v = getV();
+	renderState.w = getW();
+	renderState.eyeName = m_eyeName;
+	renderState.uName = m_uName;
+	renderState.vName = m_vName;
+	renderState.wName = m_wName;
 	m_engine.beforeRender(renderState);
 }
 

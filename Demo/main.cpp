@@ -17,19 +17,23 @@ int main() {
 	optix::Matrix4x4 transform = optix::Matrix4x4::translate(optix::make_float3(0));
 	cout << transform << endl;
 	
+	// create Context
+	OptixContext* context = new OptixContext();
+	context->setViewPort(screenW, screenH);
+
 	//create resource
 	ImageManager* imgMg = ImageManager::getInstance();
 	ModelResource* mr = new ModelResource();
-	mr->load("D:\\RealityRendering\\Demo\\resourcecube.obj", imgMg);
+	mr->load("D:\\RealityRendering\\Demo\\resource\\cube.obj", imgMg);
 
 	//5 Basic Shader for run engine
-	OptixShader intesectShader;
-	OptixShader boundShader;
-	OptixShader exceptionShader;
-	OptixShader bgShader;
-	OptixShader rayGenShader;
-	OptixShader closestShader;
-	OptixShader anyHitShader;
+	OptixShader intesectShader(context->getContext(), "cudaPtx\\triangle_mesh.cu.ptx", "intersect");
+	OptixShader boundShader(context->getContext(), "cudaPtx\\triangle_mesh.cu.ptx", "mesh_bounds");
+	OptixShader exceptionShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "exception");
+	OptixShader bgShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "backGround");
+	OptixShader rayGenShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "pinhole_camera");
+	OptixShader closestShader(context->getContext(), "cudaPtx\\color.cu.ptx", "fragment");
+
 
 	OptixGeometryShader geSH;
 	geSH.setBoundShader(boundShader);
@@ -37,13 +41,10 @@ int main() {
 
 	//material
 	OptixMaterial material ;
-	
-	// create Context
-	OptixContext* context = new OptixContext();
-	context->setViewPort(screenW, screenW);
-	context->setExceptionShader(exceptionShader);
-	context->setTopGeometryName("Top_Object");
-	
+	material.setName("colorMaterial");
+	material.setShader(OptixShaderType::OPTIX_SHADER, closestShader);
+	material.linkShader(context->getContext());
+
 	//create OptixModel
 	OptixModelResource* opMR = new OptixModelResource();
 	opMR->load(mr, context->getContext());
@@ -55,19 +56,26 @@ int main() {
 	camera->setName("MainCamera");
 	camera->setBackGroundShader(bgShader);
 	camera->setRayGenShader(rayGenShader);
-	//View for render target
+	camera->setExceptionShader(exceptionShader);
+	camera->setCameraParameter(60,
+		(float)screenW / (float)screenH,
+		make_float3(0, 0, 10),
+		make_float3(0, 0, 0),
+		make_float3(0, 1, 0));
 	OptixView* view = new OptixView(context->getContext());
 	view->setViewSize(screenW, screenH);
 	camera->setView(view);
+	camera->setGroupName("top_Object");
 
 	OptixScene scene;
 	scene.addOptixCamera(camera);
 	scene.setOptixContext(context);
 	scene.addOptixModel(opModel);
+	scene.activeCamera("MainCamera");
 
-	//scene.beforeRender();
-	//scene.doRender();
-	//Image* result = scene.getRenderResult();
+	scene.beforeRender();
+	scene.doRender();
+	Image* result = scene.getRenderResult();
 
 	getchar();
 	return 0;

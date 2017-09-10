@@ -35,8 +35,10 @@ bool OptixModel::load(OptixContext* context, OptixModelResource* modelResouce,
 		mesh->load(meshResouce, context, gshader);
 		m_mesh.push_back(mesh);
 		
-		GeometryInstance instance = context->getContext()->createGeometryInstance(
-			mesh->getGeometry(), &(material.getMaterial()), &(material.getMaterial()) + 1);
+		GeometryInstance instance = context->getContext()->createGeometryInstance();
+		instance->setGeometry(mesh->getGeometry());
+		instance->setMaterialCount(1);
+		instance->setMaterial(0, material.getMaterial());
 		m_meshGeometryInstance.push_back(instance);
 		m_geometryGroup->addChild(instance);
 	}

@@ -20,6 +20,7 @@ public:
 
 	void setViewSize(int w, int h);
 	Image* getRenderResult();
+	Buffer getRenderBuffer() { return m_renderBuffer; }
 
 	int getW() { return m_w; }
 	int getH() { return m_h; }

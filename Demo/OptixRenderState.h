@@ -20,8 +20,17 @@ public:
 	Program rayGen;
 	Program exception;
 	Program backGound;
-	int launchIdx;
 	string topGroupName;
+	int launchIdx;
+
+	float3 eye;
+	float3 u;
+	float3 v;
+	float3 w;
+	string eyeName;
+	string uName;
+	string vName;
+	string wName;
 };
 
 #endif

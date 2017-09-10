@@ -27,7 +27,7 @@
 typedef enum OptixRayType{
 	Shading_Ray = 0,
 	Shadow_Ray = 1,
-	TRANSPARENT_Ray
+	TRANSPARENT_Ray  = 2
 }RayType;
 
 #define RAY_TYPE_COUNT_ 3

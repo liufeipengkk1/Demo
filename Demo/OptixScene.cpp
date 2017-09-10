@@ -64,6 +64,10 @@ Image* OptixScene::getRenderResult() {
 }
 
 void OptixScene::beforeRender() {
+	if (m_curCamera == nullptr) {
+		cout << "OptixScene:: active a camera first" << endl;
+		return;
+	}
 	if (m_context != nullptr) {
 		m_group = m_context->getContext()->createGroup();
 		m_group->setAcceleration(m_context->getContext()->createAcceleration(m_accMethod));
@@ -79,8 +83,6 @@ void OptixScene::beforeRender() {
 		m_state.width = m_context->getW();
 		m_state.height = m_context->getH();
 		m_state.launchIdx = m_context->getCurEntryPoint();
-		m_state.topGroupName = m_context->getTopGeometryName();
-
 		m_curCamera->beforRender(m_state);
 	}
 }

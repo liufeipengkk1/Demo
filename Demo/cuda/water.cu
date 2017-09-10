@@ -1,7 +1,6 @@
 
 #include <optix.h>
 #include <optix_math.h>
-#include "RayInfoStruct.h"
 #include "random.h"
 #include "helper.h"
 using namespace optix;

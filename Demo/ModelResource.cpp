@@ -34,9 +34,13 @@ bool  ModelResource::load(const string& path, ImageManager* imageManager) {
 		cout << "ModelResource:Error load:: " << m_impoter.GetErrorString() << endl;
 		exit(0);
 	}
-	
+#ifdef _WINDOWS
+	m_directory = path.substr(0, path.find_last_of('\\'));
+	m_name = path.substr(path.find_last_of('\\')+1);
+#else
 	m_directory = path.substr(0, path.find_last_of('/'));
 	m_name = path.substr(path.find_last_of('/'));
+#endif
 
 	for (int i = 0; i < scene->mNumMeshes; i++) {
 		MeshResource* meshResource = new MeshResource();

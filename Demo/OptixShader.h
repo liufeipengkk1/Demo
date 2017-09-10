@@ -15,10 +15,12 @@ class OptixShader :public Referenced
 {
 public:
 	OptixShader();
+	OptixShader(Context context, const string& ptxFile, PTXFunction function) {
+		setShadingFunction(context, ptxFile, function);
+	}
 	virtual ~OptixShader();
 	
 	void setShadingFunction(Context context, const string& ptxFile, PTXFunction function);
-	void setName(const string&  name);
 	string getName();
 
 	Handle<VariableObj> operator[](const std::string& varname);
@@ -26,7 +28,7 @@ public:
 	Program getHandle() { return m_program; }
 
 private:
-	string  m_name;
+	PTXFunction  m_name;
 	Program m_program;
 };
 

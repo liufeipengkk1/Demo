@@ -142,8 +142,15 @@ Image* MeshResource::loadMaterialTexture(aiMaterial * material,
 
 		string name(filename.C_Str());  // aiString ---> String
 
-		name = directory + '/' + name;
+		if (name.length() == 0) {
+			return nullptr;
+		}
 
+#ifdef _WINDOWS
+		name = directory + '\\' + name;
+#else
+		name = directory + '/' + name;
+#endif
 		return imageManager->getImage(name);
 
 	}
