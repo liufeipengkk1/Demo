@@ -5,7 +5,7 @@
 	 
 ## 1.testDemo
 模块完成所有测试，放心使用
-![Alt text](https://github.com/liufeipengkk1/Demo/tree/master/Image/TestImage.jpg)
+![Alt text](https://github.com/liufeipengkk1/Demo/master/Image/TestImage.jpg)
 
 ## 2.Engine Introduction
 #### 2.1 5种shader：这里的shader是基于函数的，所以指定一份文件，同时也要指定一个函数作为入口。cameraShader:光线发射函数；backGroundSHader: 背景shader;exceptionShader: 异常shader，出现异常的时候表现的函数
