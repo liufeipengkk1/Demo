@@ -4,8 +4,8 @@
 整理出一共五种shader，为了开发的方便性，很多引擎概念上的东西都被我舍弃，由于时间仓促，没有在我自己原来的引擎上去拓展(某公司在用>.<就不公布了),将来有机会再去做拓展。 由于时间仓促，整个架构极其简单，本来打算采用entity-component架构，很多东西都被我舍弃了。
 	 
 ## 1.testDemo
-##### 1.1基于Optix写的光线跟踪引擎，不谈了，Optix设计上有一些个人认为不合理的地方，经过一周的摸索，基本熟悉所有工作模式，并封装成简单
-#####
+模块完成所有测试，放心使用
+ ![image](https://github.com/liufeipengkk1/Demo/tree/master/Image/TestImage.jpg)
 
 ## 2.Engine Introduction
 #### 2.1 5种shader：这里的shader是基于函数的，所以指定一份文件，同时也要指定一个函数作为入口。cameraShader:光线发射函数；backGroundSHader: 背景shader;exceptionShader: 异常shader，出现异常的时候表现的函数
