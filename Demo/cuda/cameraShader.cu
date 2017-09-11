@@ -48,10 +48,10 @@ RT_PROGRAM void backGround()
 	//float v = 0.5f * (1.0f + sin(phi));
 	//prd_radiance.m_color = tex2D(envmap, u, v);
 
-	prd_radiance.m_color = make_float4(bgColor, 1.0);
+	prd_radiance.m_color = make_float4(0,1,0, 1.0);
 }
 
 RT_PROGRAM void exception()
 {
-	output_buffer[launch_index] = make_float4(1, 0, 0, 1);
+	output_buffer[launch_index] = make_float4(1, 1, 0, 1);
 }

@@ -76,8 +76,8 @@ void OptixCamera::setBuffer(const string& bufferName) {
 
 bool OptixCamera::update(string eyeName, string eyeU, string eyeV, string eyeW) {
 	if (m_cameraShader.getHandle().get() != nullptr) {
-		Buffer outputBuffer = m_optixView->getRenderBuffer();
-		m_cameraShader[m_bufferName]->setBuffer(outputBuffer);
+		//Buffer outputBuffer = m_optixView->getRenderBuffer();
+		//m_cameraShader[m_bufferName]->setBuffer(outputBuffer);
 	}
 	m_eyeName = eyeName;
 	m_uName = eyeU;
@@ -100,6 +100,7 @@ void OptixCamera::beforRender(OptixRenderState& renderState) {
 	renderState.uName = m_uName;
 	renderState.vName = m_vName;
 	renderState.wName = m_wName;
+	renderState.context[m_bufferName]->setBuffer(m_optixView->getRenderBuffer());
 	m_engine.beforeRender(renderState);
 }
 

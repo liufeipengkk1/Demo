@@ -1,3 +1,4 @@
+#include <opencv2\opencv.hpp>
 #include <iostream>
 #include <optix_world.h>
 #include "ModelResource.h"
@@ -20,8 +21,8 @@ int main() {
 	// create Context
 	OptixContext* context = new OptixContext();
 	context->setViewPort(screenW, screenH);
-	Buffer hdr_buffer = context->getContext()->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, screenW, screenH);
-	context->getContext()["output_buffer"]->setBuffer(hdr_buffer);
+	//Buffer hdr_buffer = context->getContext()->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, screenW, screenH);
+	//context->getContext()["output_buffer"]->setBuffer(hdr_buffer);
 
 	//create resource
 	ImageManager* imgMg = ImageManager::getInstance();
@@ -81,6 +82,28 @@ int main() {
 	scene.doRender();
 	Image* result = scene.getRenderResult();
 
-	getchar();
+	cv::Mat image;
+	image.create(cv::Size(screenW, screenH), CV_8UC4);
+	float * data = (float *)context->getContext()["output_buffer"]->getBuffer()->map();
+	for (int i = image.rows - 1; i >= 0; i--){
+		uchar * ptr = image.ptr(i);
+		for (int j = 0; j < image.cols; j++){
+			ptr[4 * j + 2] = *(data)* 255 + 0.5;
+			ptr[4 * j + 1] = *(data + 1) * 255 + 0.5;
+			ptr[4 * j] = *(data + 2) * 255 + 0.5;
+			ptr[4 * j + 3] = 255;
+			data = data + 4;
+
+		}
+	}
+	context->getContext()["output_buffer"]->getBuffer()->unmap();
+
+	while (true) {
+		cv::imshow("renderTarget", image);
+
+		if (cv::waitKey(30) == 27)
+			break;
+	}
+
 	return 0;
 }

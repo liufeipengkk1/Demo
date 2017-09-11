@@ -101,11 +101,12 @@ bool OptixMeshResource::setMeshCache(MeshResource* mesh,
 void OptixMeshResource::createMeshBuffer(MeshResource* mesh, Context context) {
 	m_position = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,
 		mesh->getPositon().size() / PER_POSITION_FACTOR, &(mesh->getPositon()[0]), sizeof(float)*PER_POSITION_FACTOR);
-
+	RTsize w = 0;
+	m_position->getSize(w);
 	m_normal = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,
 		mesh->getNormal().size() / PER_NORMAL_FACTOR, &(mesh->getNormal()[0]), sizeof(float)*PER_NORMAL_FACTOR);
 
-	m_uvs = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,
+	m_uvs = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_FLOAT2,
 		mesh->getUV().size() / PER_UV_FACTOR, &(mesh->getUV()[0]), sizeof(float)*PER_UV_FACTOR);
 
 	m_tangent = createBuffer(context, RT_BUFFER_INPUT, RT_FORMAT_FLOAT3,

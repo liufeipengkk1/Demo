@@ -190,18 +190,12 @@
 
 )
 {
-	.reg .f32 	%f<5>;
-	.reg .b64 	%rd<4>;
+	.reg .f32 	%f<3>;
 
 
-	mov.u64 	%rd1, bgColor;
-	add.s64 	%rd2, %rd1, 4;
-	add.s64 	%rd3, %rd1, 8;
-	ldu.global.f32 	%f1, [%rd3];
-	ldu.global.f32 	%f2, [%rd2];
-	ldu.global.f32 	%f3, [bgColor];
-	mov.f32 	%f4, 0f3F800000;
-	st.global.v4.f32 	[prd_radiance+16], {%f3, %f2, %f1, %f4};
+	mov.f32 	%f1, 0f3F800000;
+	mov.f32 	%f2, 0f00000000;
+	st.global.v4.f32 	[prd_radiance+16], {%f2, %f1, %f2, %f1};
 	ret;
 }
 
@@ -227,7 +221,7 @@
 	// inline asm
 	mov.f32 	%f1, 0f00000000;
 	mov.f32 	%f2, 0f3F800000;
-	st.v4.f32 	[%rd1], {%f2, %f1, %f1, %f2};
+	st.v4.f32 	[%rd1], {%f2, %f2, %f1, %f2};
 	ret;
 }
 

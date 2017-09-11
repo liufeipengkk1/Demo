@@ -11,7 +11,6 @@
 .address_size 64
 
 	// .globl	_Z8fragmentv
-.global .align 4 .b8 color[12];
 .global .align 16 .b8 prd_radiance[64];
 .global .align 8 .u64 _ZN21rti_internal_register20reg_bitness_detectorE;
 .global .align 8 .u64 _ZN21rti_internal_register24reg_exception_64_detail0E;
@@ -41,15 +40,10 @@
 .global .align 8 .b8 _ZTVSt23_Generic_error_category[72];
 .global .align 8 .b8 _ZTVSt24_Iostream_error_category[72];
 .global .align 8 .b8 _ZTVSt22_System_error_category[72];
-.global .align 4 .b8 _ZN21rti_internal_typeinfo5colorE[8] = {82, 97, 121, 0, 12, 0, 0, 0};
 .global .align 4 .b8 _ZN21rti_internal_typeinfo12prd_radianceE[8] = {82, 97, 121, 0, 64, 0, 0, 0};
-.global .align 1 .b8 _ZN21rti_internal_typename5colorE[7] = {102, 108, 111, 97, 116, 51, 0};
 .global .align 1 .b8 _ZN21rti_internal_typename12prd_radianceE[10] = {83, 104, 97, 100, 101, 114, 82, 97, 121, 0};
-.global .align 4 .u32 _ZN21rti_internal_typeenum5colorE = 4919;
 .global .align 4 .u32 _ZN21rti_internal_typeenum12prd_radianceE = 4919;
-.global .align 1 .b8 _ZN21rti_internal_semantic5colorE[1];
 .global .align 1 .b8 _ZN21rti_internal_semantic12prd_radianceE[10] = {114, 116, 80, 97, 121, 108, 111, 97, 100, 0};
-.global .align 1 .b8 _ZN23rti_internal_annotation5colorE[1];
 .global .align 1 .b8 _ZN23rti_internal_annotation12prd_radianceE[1];
 
 .visible .entry _Z8fragmentv(
@@ -57,18 +51,12 @@
 )
 {
 	.reg .b16 	%rs<2>;
-	.reg .f32 	%f<5>;
-	.reg .b64 	%rd<4>;
+	.reg .f32 	%f<3>;
 
 
-	mov.u64 	%rd1, color;
-	add.s64 	%rd2, %rd1, 4;
-	add.s64 	%rd3, %rd1, 8;
-	ldu.global.f32 	%f1, [%rd3];
-	ldu.global.f32 	%f2, [%rd2];
-	ldu.global.f32 	%f3, [color];
-	mov.f32 	%f4, 0f3F800000;
-	st.global.v4.f32 	[prd_radiance+16], {%f3, %f2, %f1, %f4};
+	mov.f32 	%f1, 0f00000000;
+	mov.f32 	%f2, 0f3F800000;
+	st.global.v4.f32 	[prd_radiance+16], {%f2, %f1, %f2, %f2};
 	mov.u16 	%rs1, 1;
 	st.global.u8 	[prd_radiance+56], %rs1;
 	ret;
