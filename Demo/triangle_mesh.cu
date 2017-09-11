@@ -48,8 +48,8 @@ RT_PROGRAM void intersect(int primIdx)
 				float3 n0 = normal_buffer[3 * primIdx];
 				float3 n1 = normal_buffer[3 * primIdx+1];
 				float3 n2 = normal_buffer[3 * primIdx+2];
-				//shading_normal = normalize(n1*beta + n2*gamma + n0*(1.0f - beta - gamma));
-				shading_normal = geometric_normal;
+				shading_normal = normalize(n1*beta + n2*gamma + n0*(1.0f - beta - gamma));
+				//shading_normal = geometric_normal;
 			}
 
 			if (texcoord_buffer.size() == 0) {

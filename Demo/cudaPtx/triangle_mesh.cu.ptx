@@ -83,7 +83,7 @@
 )
 {
 	.reg .pred 	%p<13>;
-	.reg .f32 	%f<109>;
+	.reg .f32 	%f<133>;
 	.reg .b32 	%r<49>;
 	.reg .b64 	%rd<116>;
 
@@ -250,27 +250,54 @@ BB0_1:
 	// inline asm
 	call (%rd72), _rt_buffer_get_64, (%rd70, %r20, %r21, %rd74, %rd61, %rd61, %rd61);
 	// inline asm
+	ld.f32 	%f77, [%rd72+8];
+	ld.f32 	%f78, [%rd72+4];
+	ld.f32 	%f79, [%rd72];
 	add.s32 	%r33, %r32, 1;
 	cvt.s64.s32	%rd80, %r33;
 	// inline asm
 	call (%rd78), _rt_buffer_get_64, (%rd70, %r20, %r21, %rd80, %rd61, %rd61, %rd61);
 	// inline asm
+	ld.f32 	%f80, [%rd78+8];
+	ld.f32 	%f81, [%rd78+4];
+	ld.f32 	%f82, [%rd78];
 	add.s32 	%r34, %r32, 2;
 	cvt.s64.s32	%rd86, %r34;
 	// inline asm
 	call (%rd84), _rt_buffer_get_64, (%rd70, %r20, %r21, %rd86, %rd61, %rd61, %rd61);
 	// inline asm
-	ld.global.f32 	%f77, [geometric_normal+8];
-	ld.global.v2.f32 	{%f78, %f79}, [geometric_normal];
-	st.global.v2.f32 	[shading_normal], {%f78, %f79};
-	st.global.f32 	[shading_normal+8], %f77;
+	ld.f32 	%f83, [%rd84+8];
+	ld.f32 	%f84, [%rd84+4];
+	ld.f32 	%f85, [%rd84];
+	mul.f32 	%f86, %f8, %f85;
+	mul.f32 	%f87, %f8, %f84;
+	mul.f32 	%f88, %f8, %f83;
+	fma.rn.f32 	%f89, %f7, %f82, %f86;
+	fma.rn.f32 	%f90, %f7, %f81, %f87;
+	fma.rn.f32 	%f91, %f7, %f80, %f88;
+	mov.f32 	%f92, 0f3F800000;
+	sub.f32 	%f93, %f92, %f7;
+	sub.f32 	%f94, %f93, %f8;
+	fma.rn.f32 	%f95, %f94, %f79, %f89;
+	fma.rn.f32 	%f96, %f94, %f78, %f90;
+	fma.rn.f32 	%f97, %f94, %f77, %f91;
+	mul.f32 	%f98, %f96, %f96;
+	fma.rn.f32 	%f99, %f95, %f95, %f98;
+	fma.rn.f32 	%f100, %f97, %f97, %f99;
+	sqrt.rn.f32 	%f101, %f100;
+	rcp.rn.f32 	%f102, %f101;
+	mul.f32 	%f103, %f102, %f97;
+	mul.f32 	%f104, %f102, %f96;
+	mul.f32 	%f105, %f102, %f95;
+	st.global.v2.f32 	[shading_normal], {%f105, %f104};
+	st.global.f32 	[shading_normal+8], %f103;
 	bra.uni 	BB0_5;
 
 BB0_4:
-	ld.global.f32 	%f82, [geometric_normal+8];
-	ld.global.v2.f32 	{%f83, %f84}, [geometric_normal];
-	st.global.v2.f32 	[shading_normal], {%f83, %f84};
-	st.global.f32 	[shading_normal+8], %f82;
+	ld.global.f32 	%f106, [geometric_normal+8];
+	ld.global.v2.f32 	{%f107, %f108}, [geometric_normal];
+	st.global.v2.f32 	[shading_normal], {%f107, %f108};
+	st.global.f32 	[shading_normal+8], %f106;
 
 BB0_5:
 	mov.u64 	%rd96, texcoord_buffer;
@@ -288,34 +315,34 @@ BB0_5:
 	// inline asm
 	call (%rd97), _rt_buffer_get_64, (%rd95, %r20, %r36, %rd99, %rd61, %rd61, %rd61);
 	// inline asm
-	ld.v2.f32 	{%f87, %f88}, [%rd97];
+	ld.v2.f32 	{%f111, %f112}, [%rd97];
 	add.s32 	%r45, %r44, 1;
 	cvt.s64.s32	%rd105, %r45;
 	// inline asm
 	call (%rd103), _rt_buffer_get_64, (%rd95, %r20, %r36, %rd105, %rd61, %rd61, %rd61);
 	// inline asm
-	ld.v2.f32 	{%f91, %f92}, [%rd103];
+	ld.v2.f32 	{%f115, %f116}, [%rd103];
 	add.s32 	%r46, %r44, 2;
 	cvt.s64.s32	%rd111, %r46;
 	// inline asm
 	call (%rd109), _rt_buffer_get_64, (%rd95, %r20, %r36, %rd111, %rd61, %rd61, %rd61);
 	// inline asm
-	ld.v2.f32 	{%f95, %f96}, [%rd109];
-	mul.f32 	%f99, %f8, %f95;
-	mul.f32 	%f100, %f8, %f96;
-	fma.rn.f32 	%f101, %f7, %f91, %f99;
-	fma.rn.f32 	%f102, %f7, %f92, %f100;
-	mov.f32 	%f103, 0f3F800000;
-	sub.f32 	%f104, %f103, %f7;
-	sub.f32 	%f105, %f104, %f8;
-	fma.rn.f32 	%f106, %f105, %f88, %f102;
-	fma.rn.f32 	%f107, %f105, %f87, %f101;
-	st.global.v2.f32 	[texcoord], {%f107, %f106};
+	ld.v2.f32 	{%f119, %f120}, [%rd109];
+	mul.f32 	%f123, %f8, %f119;
+	mul.f32 	%f124, %f8, %f120;
+	fma.rn.f32 	%f125, %f7, %f115, %f123;
+	fma.rn.f32 	%f126, %f7, %f116, %f124;
+	mov.f32 	%f127, 0f3F800000;
+	sub.f32 	%f128, %f127, %f7;
+	sub.f32 	%f129, %f128, %f8;
+	fma.rn.f32 	%f130, %f129, %f112, %f126;
+	fma.rn.f32 	%f131, %f129, %f111, %f125;
+	st.global.v2.f32 	[texcoord], {%f131, %f130};
 	bra.uni 	BB0_8;
 
 BB0_7:
-	mov.f32 	%f108, 0f00000000;
-	st.global.v2.f32 	[texcoord], {%f108, %f108};
+	mov.f32 	%f132, 0f00000000;
+	st.global.v2.f32 	[texcoord], {%f132, %f132};
 
 BB0_8:
 	mov.u32 	%r48, 0;

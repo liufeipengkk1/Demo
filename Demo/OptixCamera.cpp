@@ -33,6 +33,15 @@ void OptixCamera::setExceptionShader(OptixShader& shader) {
 		cout << "OptixContext: ExceptionShader is null" << endl;
 }
 
+
+/*
+		 V
+		  |   / W
+	  	  |  /
+		  | /
+          |/-------- U
+          EYE
+*/
 void OptixCamera::calculateUVW() {
 	float ulen, vlen, wlen;
 

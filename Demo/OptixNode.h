@@ -17,7 +17,7 @@ public:
 	void translate(const float3& traslate);
 	void rotation(const float& angle, const float3& axis);
 	void scale(const float3& s);
-
+	void setTransform(optix::Matrix4x4& transform) { m_transform = transform; }
 	optix::Matrix4x4 getTransform();
 
 	void setName(const string& name);

@@ -105,7 +105,7 @@ void OptixTexture2D::write(Image* image) {
 					data[i*width * 4 + j * 4] = imageData[i*width + j];
 					data[i*width * 4 + j * 4 + 1] = imageData[i*width + j];
 					data[i*width * 4 + j * 4 + 2] = imageData[i*width + j];
-					data[i*width * 4 + j * 4 + 3] = imageData[i*width + j];
+					data[i*width * 4 + j * 4 + 3] = 255;
 				}
 			}
 		}
@@ -131,7 +131,7 @@ void OptixTexture2D::write(Image* image) {
 		m_handle->setMaxAnisotropy(1);
 		m_handle->setMipLevelCount(1);
 		m_handle->setArraySize(1);
-		m_handle->setBuffer(imageBuffer);
+		m_handle->setBuffer(0,0,imageBuffer);
 		m_isValid = true;
 	}
 	else {

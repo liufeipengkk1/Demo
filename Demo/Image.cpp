@@ -16,11 +16,12 @@ unsigned char* readImage(const string& filePath,
 	height = image.rows;
 	channel = image.channels();
 
-	unsigned char* imageData = new unsigned char[width * height * channel];
-	
+	int size = width * height * channel;
+	unsigned char* imageData = new unsigned char[size];
+	memset(imageData, 0, size);
 	for (int i = 0; i < height; i++) {
+		uchar * ptr = image.ptr(i);
 		for (int j = 0; j < width; j++) {
-			uchar * ptr = image.ptr(i);
 			if (1 == channel) {
 				imageData[i*width + j ] = ptr[j];
 			}
@@ -73,7 +74,7 @@ void Image::setImage(const string& path) {
 	m_data = readImage(path, m_width, m_heigth, m_channel);
 	switch (m_channel)
 	{
-	case 0:
+	case 1:
 		m_type = R;
 		break;
 	case 3:

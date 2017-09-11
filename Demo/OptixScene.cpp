@@ -72,7 +72,7 @@ void OptixScene::beforeRender() {
 		m_group = m_context->getContext()->createGroup();
 		m_group->setAcceleration(m_context->getContext()->createAcceleration(m_accMethod));
 		for (auto& model : m_models){
-			m_group->addChild(model->getGeometryGroup());
+			m_group->addChild(model->getTransformGroup());
 		}
 	}
 

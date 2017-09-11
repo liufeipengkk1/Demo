@@ -17,7 +17,7 @@ void OptixView::setViewSize(int w, int h) {
 
 
 Image* OptixView::getRenderResult() {
-	unsigned char* data = (unsigned char*)m_renderBuffer->map();
+	float* data = (float*)m_renderBuffer->map();
 	unsigned char* ptr = m_renderImage->getData();
 	for (int i = 0 ; i < m_h; i++){
 		for (int j = 0; j < m_w ; j++){

@@ -30,6 +30,7 @@ RT_PROGRAM void pinhole_camera()
 	optix::Ray ray(ray_origin, ray_direction, SHADING_RAY, SCENE_EPSILON);
 	
 	ShaderRay prd;
+	prd.m_color = make_float4(0, 0, 0, 0);
 	prd.m_depth = 0;
 	prd.m_done = false;
 
@@ -38,17 +39,32 @@ RT_PROGRAM void pinhole_camera()
 	output_buffer[launch_index] = prd.m_color;
 }
 
+//rtTextureSampler<float4, 2> envmap;
 rtTextureSampler<float4, 2> envmap;
 rtDeclareVariable(float3, bgColor,,);
 RT_PROGRAM void backGround()
 {
-	//float theta = atan2f(ray.direction.x, ray.direction.z);
-	//float phi = M_PIf * 0.5f - acosf(ray.direction.y);
-	//float u = (theta + M_PIf) * (0.5f * M_1_PIf);
-	//float v = 0.5f * (1.0f + sin(phi));
-	//prd_radiance.m_color = tex2D(envmap, u, v);
+	/*float theta = atan2f(ray.direction.x, ray.direction.z);
+	float phi = M_PIf * 0.5f - acosf(ray.direction.y);
+	float u = (theta + M_PIf) * (0.5f * M_1_PIf);
+	float v = 0.5f * (1.0f + sin(phi));*/
 
-	prd_radiance.m_color = make_float4(0,1,0, 1.0);
+	float x = ray.direction.x;
+	float y = ray.direction.y;
+	float z = ray.direction.z;
+	float p = acosf(y);
+	float h = atan2(x, z);
+	float pi = 3.14159265358979323846;
+	if (x > 0)
+		h = h;
+	else
+		h = 2 * pi + h;
+	
+	float v = p / pi;
+	float u = h / pi * 0.5;
+	prd_radiance.m_color = tex2D(envmap, u, v);
+	prd_radiance.m_done = true;
+	//prd_radiance.m_color = make_float4(0,1,0, 1.0);
 }
 
 RT_PROGRAM void exception()

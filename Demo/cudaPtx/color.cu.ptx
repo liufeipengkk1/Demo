@@ -11,7 +11,14 @@
 .address_size 64
 
 	// .globl	_Z8fragmentv
+.global .align 8 .b8 top_Object[4];
+.global .align 4 .f32 t_hit;
 .global .align 16 .b8 prd_radiance[64];
+.global .align 8 .b8 texcoord[8];
+.global .align 4 .b8 geometric_normal[12];
+.global .align 4 .b8 shading_normal[12];
+.global .align 4 .b8 ray[36];
+.global .align 4 .b8 col[12];
 .global .align 8 .u64 _ZN21rti_internal_register20reg_bitness_detectorE;
 .global .align 8 .u64 _ZN21rti_internal_register24reg_exception_64_detail0E;
 .global .align 8 .u64 _ZN21rti_internal_register24reg_exception_64_detail1E;
@@ -40,23 +47,171 @@
 .global .align 8 .b8 _ZTVSt23_Generic_error_category[72];
 .global .align 8 .b8 _ZTVSt24_Iostream_error_category[72];
 .global .align 8 .b8 _ZTVSt22_System_error_category[72];
+.global .align 4 .b8 _ZN21rti_internal_typeinfo10top_ObjectE[8] = {82, 97, 121, 0, 4, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo5t_hitE[8] = {82, 97, 121, 0, 4, 0, 0, 0};
 .global .align 4 .b8 _ZN21rti_internal_typeinfo12prd_radianceE[8] = {82, 97, 121, 0, 64, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo8texcoordE[8] = {82, 97, 121, 0, 8, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo16geometric_normalE[8] = {82, 97, 121, 0, 12, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo14shading_normalE[8] = {82, 97, 121, 0, 12, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo3rayE[8] = {82, 97, 121, 0, 36, 0, 0, 0};
+.global .align 4 .b8 _ZN21rti_internal_typeinfo3colE[8] = {82, 97, 121, 0, 12, 0, 0, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename10top_ObjectE[9] = {114, 116, 79, 98, 106, 101, 99, 116, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename5t_hitE[6] = {102, 108, 111, 97, 116, 0};
 .global .align 1 .b8 _ZN21rti_internal_typename12prd_radianceE[10] = {83, 104, 97, 100, 101, 114, 82, 97, 121, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename8texcoordE[7] = {102, 108, 111, 97, 116, 50, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename16geometric_normalE[7] = {102, 108, 111, 97, 116, 51, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename14shading_normalE[7] = {102, 108, 111, 97, 116, 51, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename3rayE[11] = {111, 112, 116, 105, 120, 58, 58, 82, 97, 121, 0};
+.global .align 1 .b8 _ZN21rti_internal_typename3colE[7] = {102, 108, 111, 97, 116, 51, 0};
+.global .align 4 .u32 _ZN21rti_internal_typeenum10top_ObjectE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum5t_hitE = 4919;
 .global .align 4 .u32 _ZN21rti_internal_typeenum12prd_radianceE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum8texcoordE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum16geometric_normalE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum14shading_normalE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum3rayE = 4919;
+.global .align 4 .u32 _ZN21rti_internal_typeenum3colE = 4919;
+.global .align 1 .b8 _ZN21rti_internal_semantic10top_ObjectE[1];
+.global .align 1 .b8 _ZN21rti_internal_semantic5t_hitE[23] = {114, 116, 73, 110, 116, 101, 114, 115, 101, 99, 116, 105, 111, 110, 68, 105, 115, 116, 97, 110, 99, 101, 0};
 .global .align 1 .b8 _ZN21rti_internal_semantic12prd_radianceE[10] = {114, 116, 80, 97, 121, 108, 111, 97, 100, 0};
+.global .align 1 .b8 _ZN21rti_internal_semantic8texcoordE[19] = {97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 116, 101, 120, 99, 111, 111, 114, 100, 0};
+.global .align 1 .b8 _ZN21rti_internal_semantic16geometric_normalE[27] = {97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 103, 101, 111, 109, 101, 116, 114, 105, 99, 95, 110, 111, 114, 109, 97, 108, 0};
+.global .align 1 .b8 _ZN21rti_internal_semantic14shading_normalE[25] = {97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 115, 104, 97, 100, 105, 110, 103, 95, 110, 111, 114, 109, 97, 108, 0};
+.global .align 1 .b8 _ZN21rti_internal_semantic3rayE[13] = {114, 116, 67, 117, 114, 114, 101, 110, 116, 82, 97, 121, 0};
+.global .align 1 .b8 _ZN21rti_internal_semantic3colE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation10top_ObjectE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation5t_hitE[1];
 .global .align 1 .b8 _ZN23rti_internal_annotation12prd_radianceE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation8texcoordE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation16geometric_normalE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation14shading_normalE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation3rayE[1];
+.global .align 1 .b8 _ZN23rti_internal_annotation3colE[1];
 
 .visible .entry _Z8fragmentv(
 
 )
 {
+	.local .align 16 .b8 	__local_depot0[64];
+	.reg .b64 	%SP;
+	.reg .b64 	%SPL;
+	.reg .pred 	%p<5>;
 	.reg .b16 	%rs<2>;
-	.reg .f32 	%f<3>;
+	.reg .f32 	%f<58>;
+	.reg .b32 	%r<7>;
+	.reg .b64 	%rd<17>;
 
 
-	mov.f32 	%f1, 0f00000000;
-	mov.f32 	%f2, 0f3F800000;
-	st.global.v4.f32 	[prd_radiance+16], {%f2, %f1, %f2, %f2};
+	mov.u64 	%rd16, __local_depot0;
+	cvta.local.u64 	%SP, %rd16;
+	ldu.global.u32 	%r2, [prd_radiance];
+	add.s32 	%r1, %r2, 1;
+	st.global.u32 	[prd_radiance], %r1;
+	setp.lt.s32	%p1, %r1, 5;
+	ld.global.u8 	%rs1, [prd_radiance+56];
+	setp.eq.s16	%p2, %rs1, 0;
+	and.pred  	%p3, %p1, %p2;
+	@!%p3 bra 	BB0_3;
+	bra.uni 	BB0_1;
+
+BB0_1:
+	mov.u64 	%rd1, ray;
+	add.s64 	%rd2, %rd1, 12;
+	ldu.global.f32 	%f1, [%rd2];
+	mov.u64 	%rd3, geometric_normal;
+	ldu.global.f32 	%f4, [geometric_normal];
+	mul.f32 	%f5, %f1, %f4;
+	add.s64 	%rd4, %rd3, 4;
+	ldu.global.f32 	%f6, [%rd4];
+	add.s64 	%rd5, %rd1, 16;
+	ldu.global.f32 	%f2, [%rd5];
+	mul.f32 	%f7, %f2, %f6;
+	neg.f32 	%f8, %f7;
+	sub.f32 	%f9, %f8, %f5;
+	add.s64 	%rd6, %rd3, 8;
+	ldu.global.f32 	%f10, [%rd6];
+	add.s64 	%rd7, %rd1, 20;
+	ldu.global.f32 	%f3, [%rd7];
+	mul.f32 	%f11, %f3, %f10;
+	sub.f32 	%f12, %f9, %f11;
+	setp.leu.f32	%p4, %f12, 0f00000000;
+	@%p4 bra 	BB0_3;
+
+	ldu.global.f32 	%f21, [t_hit];
+	ldu.global.f32 	%f22, [ray];
+	fma.rn.f32 	%f13, %f21, %f1, %f22;
+	add.s64 	%rd10, %rd1, 4;
+	ldu.global.f32 	%f23, [%rd10];
+	fma.rn.f32 	%f14, %f21, %f2, %f23;
+	add.s64 	%rd11, %rd1, 8;
+	ldu.global.f32 	%f24, [%rd11];
+	fma.rn.f32 	%f15, %f21, %f3, %f24;
+	mov.u64 	%rd12, shading_normal;
+	ldu.global.f32 	%f25, [shading_normal];
+	add.f32 	%f26, %f25, %f25;
+	add.s64 	%rd13, %rd12, 4;
+	ldu.global.f32 	%f27, [%rd13];
+	add.f32 	%f28, %f27, %f27;
+	add.s64 	%rd14, %rd12, 8;
+	ldu.global.f32 	%f29, [%rd14];
+	add.f32 	%f30, %f29, %f29;
+	mul.f32 	%f31, %f27, %f2;
+	fma.rn.f32 	%f32, %f25, %f1, %f31;
+	fma.rn.f32 	%f33, %f29, %f3, %f32;
+	mul.f32 	%f34, %f26, %f33;
+	mul.f32 	%f35, %f28, %f33;
+	mul.f32 	%f36, %f30, %f33;
+	sub.f32 	%f16, %f1, %f34;
+	sub.f32 	%f17, %f2, %f35;
+	sub.f32 	%f18, %f3, %f36;
+	mov.f32 	%f37, 0f00000000;
+	add.u64 	%rd8, %SP, 0;
+	cvta.to.local.u64 	%rd15, %rd8;
+	st.local.v4.f32 	[%rd15+16], {%f37, %f37, %f37, %f37};
+	add.s32 	%r6, %r2, 1;
+	st.local.u32 	[%rd15], %r6;
+	ldu.global.u32 	%r3, [top_Object];
+	mov.u32 	%r4, 0;
+	mov.f32 	%f19, 0f38D1B717;
+	mov.f32 	%f20, 0f6C4ECB8F;
+	mov.u32 	%r5, 64;
+	// inline asm
+	call _rt_trace_64, (%r3, %f13, %f14, %f15, %f16, %f17, %f18, %r4, %f19, %f20, %rd8, %r5);
+	// inline asm
+	ld.global.v4.f32 	{%f38, %f39, %f40, %f41}, [prd_radiance+16];
+	ld.local.v4.f32 	{%f42, %f43, %f44, %f45}, [%rd15+16];
+	add.f32 	%f48, %f45, %f41;
+	add.f32 	%f51, %f44, %f40;
+	add.f32 	%f54, %f43, %f39;
+	add.f32 	%f57, %f42, %f38;
+	st.global.v4.f32 	[prd_radiance+16], {%f57, %f54, %f51, %f48};
+
+BB0_3:
+	ret;
+}
+
+	// .globl	_Z5colorv
+.visible .entry _Z5colorv(
+
+)
+{
+	.reg .b16 	%rs<2>;
+	.reg .f32 	%f<5>;
+	.reg .b32 	%r<3>;
+	.reg .b64 	%rd<4>;
+
+
+	mov.u64 	%rd1, col;
+	add.s64 	%rd2, %rd1, 4;
+	add.s64 	%rd3, %rd1, 8;
+	ldu.global.f32 	%f1, [%rd3];
+	ldu.global.f32 	%f2, [%rd2];
+	ldu.global.f32 	%f3, [col];
+	mov.f32 	%f4, 0f3F800000;
+	st.global.v4.f32 	[prd_radiance+16], {%f3, %f2, %f1, %f4};
+	ldu.global.u32 	%r1, [prd_radiance];
+	add.s32 	%r2, %r1, 1;
+	st.global.u32 	[prd_radiance], %r2;
 	mov.u16 	%rs1, 1;
 	st.global.u8 	[prd_radiance+56], %rs1;
 	ret;
