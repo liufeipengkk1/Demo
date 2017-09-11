@@ -9,18 +9,16 @@
 
 ## 2.Engine Introduction
 #### 2.1 5种shader：这里的shader是基于函数的，所以指定一份文件，同时也要指定一个函数作为入口
-        cameraShader:光线发射函数
-        backGroundSHader: 背景shader
-        exceptionShader: 异常shader，出现异常的时候表现的函数
-        GeometryShader:由BoundingBox和Intesect共同构成，Intesect这个函数不多说了，具体看我写的Triangle_mesh.cu函数就能明白是咋回事了，一个完整IntesectShader应该
-                    包含材质指定入口，以及法线和uv的处理。BoundingBoxShader:指定一个包围盒，这个就不说了，场景加速使用的，bvh算法更不用多说了，很成熟的一棵树了。
-####     MaterialShader: 可以由三种Shader构成，对应三个类别，着色，透明，阴影。
+cameraShader:光线发射函数
+backGroundSHader: 背景shader
+exceptionShader: 异常shader，出现异常的时候表现的函数
+GeometryShader:由BoundingBox和Intesect共同构成，Intesect这个函数不多说了，具体看我写的Triangle_mesh.cu函数就能明白是咋回事了，一个完整IntesectShader应该
+包含材质指定入口，以及法线和uv的处理。BoundingBoxShader:指定一个包围盒，这个就不说了，场景加速使用的，bvh算法更不用多说了，很成熟的一棵树了。
+MaterialShader: 可以由三种Shader构成，对应三个类别，着色，透明，阴影。
 #### 2.3 How To Use?
-####     看demo.使用非常简单，处理流程一般是：创建上下文----> 创建各类Shader--->创建一个场景---->模型加载---->创建一个Camera---->创建一个View用来绘制---->激活一个Camera
-####                                          渲染 。
+看demo.使用非常简单，处理流程一般是：创建上下文----> 创建各类Shader--->创建一个场景---->模型加载---->创建一个Camera---->创建一个View用来绘制---->激活一个Camera->渲染 。
 #### 2.4 不得吐槽
-####      吐槽我现在把Transform作为场景的入口，真实悔死了，Optix自带的Transform有问题，问题在于：只会对网格做旋转，法线的操作需要你自己去操作，当时的感受是这个东西为何存在？
-####       直接扔到Shader中处理，或者自己在CPU处理也就那么一回事。使用旋转的时候要注意了。法线逆转置操作自己手动完成
+吐槽我现在把Transform作为场景的入口，真实悔死了，Optix自带的Transform有问题，问题在于：只会对网格做旋转，法线的操作需要你自己去操作，当时的感受是这个东西为何要存在？
 #### 2.5
 ## 3.Light Model
 #### 3.1.Microfacet Cook-Torrance
