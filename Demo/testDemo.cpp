@@ -65,7 +65,7 @@ int main() {
 
 	OptixModel* opModel2 = opModel->clone("clone Model");
 	opModel2->scale(make_float3(2, 2, 2));
-	//opModel2->rotation(90, make_float3(0, 1, 0)); // 用Trasform非常不保险，比如这样的旋转操作，似乎会使法线数据出现问题，还是在shader中手动计算，建议
+	opModel2->rotation(90, make_float3(0, 1, 0)); // 用Trasform非常不保险，比如这样的旋转操作，似乎会使法线数据出现问题，还是在shader中手动计算，建议
 	opModel2->translate(make_float3(20, 0, -10));
 
 	//shader 复用性测试，几何shader进行复用
