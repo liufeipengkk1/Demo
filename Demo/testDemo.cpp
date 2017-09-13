@@ -11,13 +11,9 @@
 #include "OptixView.h"
 using namespace std;
 
-int screenW = 1280;
-int screenH = 720;
-int main() {
-	cout << "liufeipeng" << endl;
-	optix::Matrix4x4 transform = optix::Matrix4x4::translate(optix::make_float3(0));
-	cout << transform << endl;
-	
+int main_testView() {
+	int screenW = 1280;
+	int screenH = 720;
 	// create Context
 	OptixContext* context = new OptixContext();
 	context->setViewPort(screenW, screenH);
@@ -65,13 +61,13 @@ int main() {
 
 	OptixModel* opModel2 = opModel->clone("clone Model");
 	opModel2->scale(make_float3(2, 2, 2));
-	opModel2->rotation(90, make_float3(0, 1, 0)); // 用Trasform非常不保险，比如这样的旋转操作，似乎会使法线数据出现问题，还是在shader中手动计算，建议
+	opModel2->rotation(90, make_float3(0, 1, 0)); 
 	opModel2->translate(make_float3(20, 0, -10));
 
 	//shader 复用性测试，几何shader进行复用
 	OptixModel* cube = new OptixModel();
-	cube->load(context, "D:\\RealityRendering\\Demo\\resource\\cube.obj", materialBox, geSH, imgMg);
-	cube->translate(make_float3(-8, 5, 20));
+	cube->load(context, "D:\\RealityRendering\\Demo\\resource\\pointLight.FBX", materialBox, geSH, imgMg);
+	//cube->translate(make_float3(-8, 5, 20));
 	//create Camera
 	OptixCamera* camera = new OptixCamera();
 	camera->setName("MainCamera");

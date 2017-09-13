@@ -95,9 +95,7 @@ __device__ __inline__ void sampleUnitHemisphere(const float2 & sample,float3 &U,
 }
 
 
-//sample  disk
-//这个函数非常重要。
-//map unit square to unit disk 
+
 static
 __device__ __inline__ void ConcentricSampleDisk(float2 & sample){
 
@@ -137,8 +135,6 @@ __device__ __inline__ void ConcentricSampleDisk(float2 & sample){
 	sample.y = v;
 }
 
-//乘以cos theta之后的取样。。  积分完之后为1 BXDF用这个。。。  
-//这个地方还有PDF
 static 
 __device__ __inline__ void  cosSampleUnitHemisphere(float2 & sample, float3 &U,
 			float3 & V,float3 & W,float3 & point)
@@ -353,6 +349,5 @@ static __host__ __device__ __inline__ optix::float3 tonemap(const optix::float3 
 
 	return mapped_rgb;
 }
-
 
 #endif
