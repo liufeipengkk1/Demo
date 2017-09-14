@@ -4,7 +4,7 @@
 #include "../random.h"
 #include "cudaUtil.h"
 
-using namespace optix;
+using namespace optix;	
 
 rtDeclareVariable(float3, eye, ,);
 rtDeclareVariable(float3, u, , );
@@ -31,13 +31,13 @@ RT_PROGRAM void pinhole_camera()
 	optix::Ray ray(ray_origin, ray_direction, SHADING_RAY, SCENE_EPSILON);
 	
 	ShaderRay prd;
-	prd.m_color = make_float4(0, 0, 0, 0);
+	prd.m_radiance = make_float3(0,0,0);
 	prd.m_depth = 0;
 	prd.m_done = false;
 
 	rtTrace(top_Object, ray, prd);
 	
-	output_buffer[launch_index] = prd.m_color;
+	output_buffer[launch_index] = make_float4(prd.m_radiance, 1.0);
 }
 
 rtDeclareVariable(unsigned int, frame_number, , );

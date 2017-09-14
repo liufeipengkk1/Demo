@@ -54,82 +54,72 @@ bool MeshResource::load(aiMesh* mesh, const aiScene* scene,
 	ImageManager* imageManager, const string& directory) {
 	if (nullptr != mesh && nullptr != scene && nullptr != imageManager) {
 		m_imageManager = imageManager;
-		if (mesh->HasFaces()) {
-			for (int i = 0; i < mesh->mNumFaces; i++) {
-				aiFace& face = mesh->mFaces[i];
-				if (face.mNumIndices != 3) {
-					cout << "MeshResource: error: the mesh is not triangle" << endl;
-					m_position.clear();
-					m_normal.clear();
-					m_uvs.clear();
-					m_tangent.clear();
-					m_biTangnt.clear();
-					return false;
-				}
-				else {
-					for (int k = 0; k < 3; k++) {
-						int index = face.mIndices[k];
-						m_indices.push_back(index);
-						m_position.push_back(mesh->mVertices[index].x);
-						m_position.push_back(mesh->mVertices[index].y);
-						m_position.push_back(mesh->mVertices[index].z);
 
-						if (mesh->HasNormals()) {
-							m_normal.push_back(mesh->mNormals[index].x);
-							m_normal.push_back(mesh->mNormals[index].y);
-							m_normal.push_back(mesh->mNormals[index].z);
-						}
+		for (int i = 0; i < mesh->mNumVertices; i++) {
+			m_position.push_back(mesh->mVertices[i].x);
+			m_position.push_back(mesh->mVertices[i].y);
+			m_position.push_back(mesh->mVertices[i].z);
 
-						if (mesh->mTextureCoords[0]) {
-							m_uvs.push_back(mesh->mTextureCoords[0][index].x);
-							m_uvs.push_back(mesh->mTextureCoords[0][index].y);
-						}
+			m_normal.push_back(mesh->mNormals[i].x);
+			m_normal.push_back(mesh->mNormals[i].y);
+			m_normal.push_back(mesh->mNormals[i].z);
 
-						if (mesh->HasTangentsAndBitangents()) {
-							m_tangent.push_back(mesh->mTangents[index].x);
-							m_tangent.push_back(mesh->mTangents[index].y);
-							m_tangent.push_back(mesh->mTangents[index].z);
+			m_tangent.push_back(mesh->mTangents[i].x);
+			m_tangent.push_back(mesh->mTangents[i].y);
+			m_tangent.push_back(mesh->mTangents[i].z);
 
-							m_biTangnt.push_back(mesh->mBitangents[index].x);
-							m_biTangnt.push_back(mesh->mBitangents[index].y);
-							m_biTangnt.push_back(mesh->mBitangents[index].z);
-						}
-					}
-				}
+			m_biTangnt.push_back(mesh->mBitangents[i].x);
+			m_biTangnt.push_back(mesh->mBitangents[i].y);
+			m_biTangnt.push_back(mesh->mBitangents[i].z);
+
+			if (mesh->mTextureCoords[0]) {
+				m_uvs.push_back(mesh->mTextureCoords[0][i].x);
+				m_uvs.push_back(mesh->mTextureCoords[0][i].y);
 			}
-
-			aiString name = mesh->mName;
-			m_name = name.C_Str();
-
-			if (mesh->mMaterialIndex >= 0) {
-				m_diffuseMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_DIFFUSE,
-					directory, imageManager);
-
-				m_normalMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_NORMALS,
-					directory, imageManager);
-
-				m_glossyMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SHININESS,
-					directory, imageManager);
-
-				//assimp 不支持金属质感的贴图
-				//m_matallicMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SPECULAR,
-				//	directory, imageManager);
-
-				m_specularMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SPECULAR,
-					directory, imageManager);
-				
-				m_emissionMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_EMISSIVE,
-					directory, imageManager);
-
-				m_reflectionMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_REFLECTION,
-					directory, imageManager);
-
-				m_opacityMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_OPACITY,
-					directory, imageManager);
+			else {
+				m_uvs.push_back(0);
+				m_uvs.push_back(0);
 			}
-
-			return true;
 		}
+
+		for (int i = 0; i < mesh->mNumFaces; i++) {
+			aiFace& face = mesh->mFaces[i];
+			for (int j = 0; j < face.mNumIndices; j++) {
+				m_indices.push_back(face.mIndices[j]);
+			}
+		}
+
+		aiString name = mesh->mName;
+		m_name = name.C_Str();
+
+		if (mesh->mMaterialIndex >= 0) {
+			m_diffuseMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_DIFFUSE,
+				directory, imageManager);
+
+			m_normalMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_NORMALS,
+				directory, imageManager);
+
+			m_glossyMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SHININESS,
+				directory, imageManager);
+
+			//assimp 不支持金属质感的贴图
+			//m_matallicMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SPECULAR,
+			//	directory, imageManager);
+
+			m_specularMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_SPECULAR,
+				directory, imageManager);
+
+			m_emissionMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_EMISSIVE,
+				directory, imageManager);
+
+			m_reflectionMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_REFLECTION,
+				directory, imageManager);
+
+			m_opacityMap = loadMaterialTexture(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_OPACITY,
+				directory, imageManager);
+		}
+
+		return true;
 	}
 }
 

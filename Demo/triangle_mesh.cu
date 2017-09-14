@@ -17,6 +17,8 @@ rtBuffer<int3> tri_indice;
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
+rtDeclareVariable(float3, geometric_tanent, attribute geometric_tanent, );
+rtDeclareVariable(float3, geometric_bitanent, attribute geometric_bitanent, );
 rtDeclareVariable(float3, tangent, attribute tangent, );
 rtDeclareVariable(float3, bigTangent, attribute bigTangent, );
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
@@ -28,10 +30,12 @@ RT_PROGRAM void intersect(int primIdx)
 	const float3 p1 = vertex_buffer[tri_indice[primIdx].y];
 	const float3 p2 = vertex_buffer[tri_indice[primIdx].z];
 
+	geometric_tanent = tangent_buffer[3 * primIdx];
+//	geometric_bitanent = bigTangent_buffer[tri_indice[primIdx].x];
+
 	const float3 t1 = tangent_buffer[tri_indice[primIdx].x];
 	const float3  bt1 = bigTangent_buffer[tri_indice[primIdx].x];
 	//intersect ray with triangle
-		
 	float3 n;
 	float  t, beta, gamma;
 	if (intersect_triangle(ray, p0, p1, p2, n, t, beta, gamma)) {

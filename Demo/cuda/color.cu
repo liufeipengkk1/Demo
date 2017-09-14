@@ -17,18 +17,20 @@ rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-
-
-
+rtTextureSampler<float4, 2> normalMap;
 
 RT_PROGRAM void fragment()
 {
 	float3 world_shade_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+	float3 T = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+	float3 B = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+	float3 texNormal = make_float3(tex2D(normalMap, texcoord.x, texcoord.y));
+	texNormal = 2 * texNormal - 1;
 	prd_radiance.m_depth += 1;
 	if (prd_radiance.m_depth < 7 && !prd_radiance.m_done) {
 		//if (dot(-ray.direction, geometric_normal) > 0) {
 			float3 hit_point = ray.origin + t_hit * ray.direction;
-			float3 R = reflect(ray.direction, world_shade_normal);
+			float3 R = reflect(ray.direction, texNormal);
 			ShaderRay refl_prd;
 			refl_prd.m_radiance = make_float3(0, 0, 0);
 			refl_prd.m_depth = prd_radiance.m_depth;
@@ -42,7 +44,6 @@ RT_PROGRAM void fragment()
 
 rtDeclareVariable(float3, pointLightPos, , );
 rtDeclareVariable(float, pointLightRadius, ,);
-rtTextureSampler<float4, 2> normalMap;
 RT_PROGRAM void glossy_BRDF() {
 	float3 world_shade_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
 	float3 hit_point = ray.origin + t_hit * ray.direction;
@@ -55,7 +56,8 @@ RT_PROGRAM void glossy_BRDF() {
 	float bsdf_pdf;
 	float bsdf_val;
 	float3 dir_out = -ray.direction;
-	float3 dir_r = reflect(ray.direction, world_shade_normal);
+	float3 texNormal = make_float3(tex2D(normalMap, texcoord.x, texcoord.y));
+	float3 dir_r = reflect(ray.direction, texNormal);
 	float3 v1, v2;
 	createONB(dir_r, v1, v2);
 	prd_radiance.m_direction = sample_phong_lobe(sample, 10000, v1, v2, dir_r, bsdf_pdf, bsdf_val);  //这个灯泡函数到底是什么  好特么的关键啊   我日。
@@ -64,7 +66,7 @@ RT_PROGRAM void glossy_BRDF() {
 		float3 d = normalize(-ray.direction) + normalize(prd_radiance.m_direction);
 		d = normalize(d);
 		float rf0 = 0.15;
-		float cosAlpha = dot(d, world_shade_normal);
+		float cosAlpha = dot(d, texNormal);
 		float fre = 0;
 		if (cosAlpha > 0) {
 			fre = rf0 + (1 - rf0)* pow(1 - cosAlpha, 5);

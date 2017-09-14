@@ -135,8 +135,8 @@
 	.reg .b64 	%SP;
 	.reg .b64 	%SPL;
 	.reg .b16 	%rs<2>;
-	.reg .f32 	%f<51>;
-	.reg .b32 	%r<12>;
+	.reg .f32 	%f<46>;
+	.reg .b32 	%r<13>;
 	.reg .b64 	%rd<16>;
 
 
@@ -186,11 +186,12 @@
 	mul.f32 	%f4, %f32, %f41;
 	mul.f32 	%f5, %f34, %f41;
 	mul.f32 	%f6, %f36, %f41;
-	mov.f32 	%f42, 0f00000000;
 	add.u64 	%rd6, %SP, 0;
 	cvta.to.local.u64 	%rd14, %rd6;
-	st.local.v4.f32 	[%rd14+16], {%f42, %f42, %f42, %f42};
 	mov.u32 	%r4, 0;
+	st.local.u32 	[%rd14+104], %r4;
+	mov.f32 	%f42, 0f00000000;
+	st.local.v2.f32 	[%rd14+96], {%f42, %f42};
 	st.local.u32 	[%rd14], %r4;
 	mov.u16 	%rs1, 0;
 	st.local.u8 	[%rd14+80], %rs1;
@@ -207,8 +208,14 @@
 	// inline asm
 	call (%rd7), _rt_buffer_get_64, (%rd5, %r6, %r7, %rd9, %rd10, %rd12, %rd12);
 	// inline asm
-	ld.local.v4.f32 	{%f43, %f44, %f45, %f46}, [%rd14+16];
-	st.v4.f32 	[%rd7], {%f43, %f44, %f45, %f46};
+	ld.local.f32 	%f43, [%rd14+96];
+	ld.local.f32 	%f44, [%rd14+100];
+	ld.local.f32 	%f45, [%rd14+104];
+	mov.u32 	%r12, 1065353216;
+	st.u32 	[%rd7+12], %r12;
+	st.f32 	[%rd7+8], %f45;
+	st.f32 	[%rd7+4], %f44;
+	st.f32 	[%rd7], %f43;
 	ret;
 }
 

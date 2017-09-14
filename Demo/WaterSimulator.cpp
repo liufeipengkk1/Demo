@@ -11,7 +11,9 @@
 #include "OptixView.h"
 using namespace std;
 
+
 int main() {
+
 	int screenW = 1280;
 	int screenH = 720;
 	// create Context
@@ -31,8 +33,8 @@ int main() {
 	OptixShader boundShader(context->getContext(), "cudaPtx\\triangle_mesh.cu.ptx", "mesh_bounds");
 	OptixShader exceptionShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "exception");
 	OptixShader bgShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "backGround");
-	OptixShader rayGenShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "jitter_pinhole_camera");
-	OptixShader reflectionShader(context->getContext(), "cudaPtx\\color.cu.ptx", "glossy_BRDF");
+	OptixShader rayGenShader(context->getContext(), "cudaPtx\\cameraShader.cu.ptx", "pinhole_camera");
+	OptixShader reflectionShader(context->getContext(), "cudaPtx\\color.cu.ptx", "fragment");
 	OptixShader closestShaderColor(context->getContext(), "cudaPtx\\color.cu.ptx", "color");
 	closestShaderColor["col"]->setFloat(1, 1, 1);
 
@@ -42,6 +44,12 @@ int main() {
 	evMap.write(evMapImg);
 	bgShader["envmap"]->setTextureSampler(evMap.getHandle());
 	delete evMapImg;
+
+	Image *waterNomImg = new Image("image\\T_Water_N.png");
+	OptixTexture2D waterNormalMap(context->getContext());
+	waterNormalMap.write(waterNomImg);
+	reflectionShader["normalMap"]->setTextureSampler(waterNormalMap.getHandle());
+	delete waterNomImg;
 
 	OptixGeometryShader geSH;
 	geSH.setBoundShader(boundShader);

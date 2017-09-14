@@ -1,6 +1,8 @@
 #include "Image.h"
 #include <opencv2\opencv.hpp>
 
+//#define SHOW_READIMAGE
+
 unsigned char* readImage(const string& filePath,
 	unsigned int& width, unsigned int& height, unsigned int& channel){
 	cv::Mat image;
@@ -11,6 +13,17 @@ unsigned char* readImage(const string& filePath,
 		cout << "Image: check file path" << endl;
 		return nullptr;
 	}
+	
+#ifdef SHOW_READIMAGE
+	while (1)
+	{
+		cv::imshow("show image", image);
+
+		if (cv::waitKey(27) == 13)
+			break;
+	}
+#endif
+	
 	
 	width = image.cols;
 	height = image.rows;
